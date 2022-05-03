@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "lib": ["es2015"]
+}
+
+//Ändra i module till ESNext och target till NodeNext i tsconfig.json så vi kan använda import / export
+//Avkommentera moduleResolution="node" så att importerna fungerar korrekt
