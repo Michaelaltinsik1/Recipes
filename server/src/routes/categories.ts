@@ -1,42 +1,41 @@
 import express from "express";
-
+import {
+  getCategories,
+  getRecipesByCategory,
+  getRecipesByCategoryAndSearch,
+} from "../db/category";
 const router = express.Router();
 
-/*
- * Get all categories
- */
 router.get("/", async (req: express.Request, res: express.Response) => {
-  res.send("get all categories");
+  const categories = await getCategories();
+  res.json(categories);
+  //res.send("get all categories");
 });
 
-/*
- * Get recepies for a specific category or filtered
- * by a searchstring if it exists (query)
- *    /categories/:categoryName/recipes
- */
 router.get(
   "/:categoryName/recipes",
-  (req: express.Request, res: express.Response) => {
+  async (req: express.Request, res: express.Response) => {
     const params = req.params;
     const query = req.query;
     if (Object.keys(query).length > 0) {
-      res.send(query);
+      let categoryName = params.categoryName;
+      let queryString = query.search;
+      console.log(typeof queryString);
+      if (typeof queryString === "string") {
+        const recepiesFetched = await getRecipesByCategoryAndSearch(
+          queryString,
+          categoryName
+        );
+        res.json(recepiesFetched);
+      } else {
+        res.send("Not found");
+      }
     } else {
-      res.send(params);
+      let categoryName = params.categoryName;
+      const recipesByCategory = await getRecipesByCategory(categoryName);
+      res.json(recipesByCategory);
     }
   }
 );
 
 export default router;
-
-/*
- * Get all recipes in a category filtered by a search string
- *    /categories/:categoryName/recipes?search=abc
- */
-// router.get(
-//   "/:categoryName/recipes",
-//   (req: express.Request, res: express.Response) => {
-//     const query = req.query;
-//     res.send(query);
-//   }
-// );

@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
 
+import { getRecipes, getRecipesByQuery, getRecipeById } from "../db/recipe";
+
 const router = express.Router();
 
 /*
@@ -9,9 +11,18 @@ const router = express.Router();
 router.get("/", async (req: express.Request, res: express.Response) => {
   const query = req.query;
   if (Object.keys(query).length > 0) {
-    res.send(query);
+    ///const recipesByQuery = await getRecipesByQuery();
+    //console.log(Object.keys(query).includes("search"));
+    if (Object.keys(query).includes("search")) {
+      const recipesByQuery = await getRecipesByQuery(query);
+      res.json(recipesByQuery);
+    } else {
+      res.send("query not search");
+    }
   } else {
-    res.send("get all recipes");
+    const recipes = await getRecipes();
+    res.json(recipes);
+    //res.send("All recipes");
   }
 });
 
@@ -22,7 +33,9 @@ router.get(
   "/:recipeId",
   async (req: express.Request, res: express.Response) => {
     const params = req.params;
-    res.send(params);
+    let id = params.recipeId;
+    const recipeById = await getRecipeById(id);
+    res.send(recipeById);
   }
 );
 
