@@ -11,8 +11,6 @@ const router = express.Router();
 router.get("/", async (req: express.Request, res: express.Response) => {
   const query = req.query;
   if (Object.keys(query).length > 0) {
-    ///const recipesByQuery = await getRecipesByQuery();
-    //console.log(Object.keys(query).includes("search"));
     if (Object.keys(query).includes("search")) {
       const recipesByQuery = await getRecipesByQuery(query);
       res.json(recipesByQuery);
@@ -22,7 +20,6 @@ router.get("/", async (req: express.Request, res: express.Response) => {
   } else {
     const recipes = await getRecipes();
     res.json(recipes);
-    //res.send("All recipes");
   }
 });
 
@@ -40,12 +37,3 @@ router.get(
 );
 
 export default router;
-
-/*
- * Get all recipes filtered by a search string
- *    /recipes?search=abc
- */
-// router.get("recipes", async (req: express.Request, res: express.Response) => {
-//   const query = req.query;
-//   res.send(query);
-// });
