@@ -20,7 +20,6 @@ router.get(
     if (Object.keys(query).length > 0) {
       let categoryName = params.categoryName;
       let queryString = query.search;
-      console.log(typeof queryString);
       if (typeof queryString === "string") {
         const recepiesFetched = await getRecipesByCategoryAndSearch(
           queryString,

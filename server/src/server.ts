@@ -23,7 +23,7 @@ connect(url)
 //   "mongodb+srv://Michael1994:Kb7lZbpMrohh8F09@cluster0.v0e70.mongodb.net/RECIPESAPP?retryWrites=true&w=majority"
 // );
 const app = express();
-const port = 3000;
+const port = 4000;
 app.use(express.json());
 
 //Routers
