@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import searchIcon from "../images/searchIcon.svg";
 
 const SearchField = ({ updateSearchParams }: any) => {

@@ -1,8 +1,4 @@
-import {
-  fetchRecipes,
-  fetchRecipesById,
-  fetchRecipesByQuery,
-} from "../API/recipes";
+import { fetchRecipes, fetchRecipesByQuery } from "../API/recipes";
 
 import {
   fetchCategories,
@@ -14,9 +10,14 @@ import SearchField from "../Components/SearchField";
 import { useEffect, useState } from "react";
 import CategoryList from "../Components/CategoryList";
 import RecipesList from "../Components/RecipesList";
-import { Outlet, useParams, useSearchParams } from "react-router-dom";
+import {
+  /*Outlet,*/ useParams,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 
 const HomePage = () => {
+  let navigate = useNavigate();
   const [categories, setCategories] = useState<Set<string>>(new Set());
   const [unFilteredCategories, setUnFilteredCategories] = useState<string[]>(
     []
@@ -81,10 +82,18 @@ const HomePage = () => {
     const filteredCategories = filterRedundantCategories(allCategories.data);
     setCategories(filteredCategories);
   };
-
+  function handleNavigation(id: any) {
+    console.log(id);
+    navigate(`/recipe/${id}`);
+  }
   return (
     <div className="App">
-      {recipesState && <RecipesList recipes={recipesState} />}
+      {recipesState && (
+        <RecipesList
+          handleNavigation={handleNavigation}
+          recipes={recipesState}
+        />
+      )}
       <CategoryList
         categories={categories}
         unfilteredCategories={unFilteredCategories}

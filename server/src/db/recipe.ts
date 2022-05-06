@@ -4,7 +4,7 @@ export const getRecipes = async () => {
 };
 
 export const getRecipeById = async (id: string) => {
-  let foundRecipe = await RecipeModel.find({ _id: id });
+  let foundRecipe = await RecipeModel.findById({ _id: id });
   // let foundRecipe = await RecipeModel.findOne({ _id: id });
   return foundRecipe;
 };

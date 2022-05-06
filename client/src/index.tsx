@@ -15,7 +15,7 @@ root.render(
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="category/:categoryId" element={<HomePage />} />
-        <Route path="/recipe" element={<RecipePage />} />
+        <Route path="/recipe/:recipeId" element={<RecipePage />} />
         <Route path="*" element={<NoMatchPage />} />
       </Routes>
     </BrowserRouter>

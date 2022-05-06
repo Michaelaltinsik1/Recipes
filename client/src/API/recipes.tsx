@@ -11,6 +11,6 @@ export const fetchRecipesByQuery = async (query: string) => {
 };
 
 export const fetchRecipesById = async (id: string) => {
-  console.log("recipes by id");
-  return await axios.get(`/${id}`);
+  console.log("recipes by id", id);
+  return await axios.get(`/recipes/${id}`);
 };

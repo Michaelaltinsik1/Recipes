@@ -29,13 +29,17 @@ import Recipe from "./Recipe";
 //   ];
 // }
 
-const RecipesList = ({ recipes }: any) => {
+const RecipesList = ({ recipes, handleNavigation }: any) => {
   // console.log("recipes:", recipes);
   if (recipes.length > 0) {
     return (
       <section>
         {recipes.map((recipe: any) => (
-          <Recipe key={recipe._id} recipe={recipe} />
+          <Recipe
+            key={recipe._id}
+            recipe={recipe}
+            handleNavigation={handleNavigation}
+          />
         ))}
       </section>
     );
