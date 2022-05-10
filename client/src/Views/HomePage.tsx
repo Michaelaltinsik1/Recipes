@@ -57,9 +57,9 @@ const HomePage = () => {
     if (params.hasOwnProperty("categoryId") && !searchParams.get("search")) {
       let query = params.categoryId;
       getRecipiesByCategory(query);
-    } else if (!searchParams.get("search")) {
-      getCategories();
-    }
+    } // else if (!searchParams.get("search")) {
+    getCategories();
+    //}
   }, [params, searchParams]);
 
   useEffect(() => {

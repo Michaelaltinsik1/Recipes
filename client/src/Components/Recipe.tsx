@@ -27,8 +27,11 @@
 //   ];
 // }
 
-const Recipe = ({ recipe, handleNavigation = function () {} }: any) => {
-  console.log("recipe: ", recipe);
+const Recipe = ({
+  recipe,
+  handleNavigation = function () {},
+  page = "",
+}: any) => {
   return (
     <article onClick={() => handleClick(recipe._id)}>
       <h1>{recipe.title}</h1>
@@ -36,6 +39,7 @@ const Recipe = ({ recipe, handleNavigation = function () {} }: any) => {
       {<p>{recipe.ingredients.length} INGREDIENTS</p>}
       <p>{recipe.timeInMins} MINUTES</p>
       <img src={recipe.imageURL} alt={recipe.title} width="300" height="200" />
+      {page && <h1>Hello</h1>}
     </article>
   );
   function handleClick(id: any) {
