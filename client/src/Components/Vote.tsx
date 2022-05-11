@@ -10,11 +10,15 @@ const Vote = ({ isVoted, handleVote }: VoteType) => {
       <article>
         <h2>How did you enjoy the recipe?</h2>
         <p>Click on a star to rate the recipe</p>
-        <Stars handleVote={handleVote} />
+        <Stars handleVote={handleVote} starCount={5} page={"recipePage"} />
       </article>
     );
   } else {
-    return <h1>Nothing</h1>;
+    return (
+      <article>
+        <h2>Thank you for your vote!</h2>
+      </article>
+    );
   }
 };
 

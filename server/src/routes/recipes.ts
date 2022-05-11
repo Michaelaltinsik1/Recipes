@@ -26,7 +26,6 @@ router.get("/", async (req: express.Request, res: express.Response) => {
     }
   } else {
     const recipes = await getRecipes();
-    console.log(new Date());
     res.json(recipes);
   }
 });
@@ -69,7 +68,6 @@ router.get(
 router.post(
   "/:recipeId/comments",
   async (req: express.Request, res: express.Response) => {
-    console.log("post a comment");
     if (req.params.hasOwnProperty("recipeId")) {
       await postCommentsById(req.params.recipeId, req.body);
     }

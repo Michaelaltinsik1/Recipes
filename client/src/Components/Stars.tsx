@@ -1,18 +1,25 @@
 import Star from "./Star";
-const STARCOUNT = 5;
+
 interface starsType {
   handleVote?: Function;
+  starCount: number;
+  page?: string | null;
 }
 
-const Stars = ({ handleVote }: starsType) => {
+const Stars = ({ handleVote, starCount, page = null }: starsType) => {
   let values = [];
-  for (let i = 0; i < STARCOUNT; i++) {
+  for (let i = 0; i < starCount; i++) {
     values.push(i + 1);
   }
   return (
     <div>
       {values.map((value: number) => (
-        <Star key={value} starNumber={value} handleVote={handleVote} />
+        <Star
+          key={value}
+          starNumber={value}
+          handleVote={handleVote}
+          page={page}
+        />
       ))}
     </div>
   );

@@ -1,4 +1,5 @@
 import { RecipeType } from "../types/RecipeType";
+import Stars from "./Stars";
 
 const Recipe = (props: {
   recipe: RecipeType;
@@ -15,6 +16,7 @@ const Recipe = (props: {
       <p>{props.recipe.description}</p>
       {<p>{props.recipe.ingredients.length} INGREDIENTS</p>}
       <p>{props.recipe.timeInMins} MINUTES</p>
+      {!props.page && <Stars starCount={getAvgRating(props.recipe.ratings)} />}
       <img
         src={props.recipe.imageURL}
         alt={props.recipe.title}
@@ -28,6 +30,11 @@ const Recipe = (props: {
     if (props.handleNavigation) {
       props.handleNavigation(id);
     }
+  }
+  function getAvgRating(raitings: Array<number>) {
+    let sum = 0;
+    raitings.map((raiting): number => (sum += raiting));
+    return Math.round(sum / raitings.length);
   }
 };
 
