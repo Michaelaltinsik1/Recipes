@@ -15,3 +15,9 @@ export const getRecipesByQuery = async (searchString: Object) => {
     title: { $regex: searchString[key], $options: "i" },
   });
 };
+
+export const postRecipeById = async (rating: number, id: string) => {
+  console.log("Rating:", rating);
+  console.log("Id: ", id);
+  await RecipeModel.updateOne({ _id: id }, { $push: { ratings: rating } });
+};

@@ -2,14 +2,15 @@ import Stars from "./Stars";
 
 interface VoteType {
   isVoted: boolean;
+  handleVote: Function;
 }
-const Vote = ({ isVoted }: VoteType) => {
+const Vote = ({ isVoted, handleVote }: VoteType) => {
   if (!isVoted) {
     return (
       <article>
         <h2>How did you enjoy the recipe?</h2>
         <p>Click on a star to rate the recipe</p>
-        <Stars />
+        <Stars handleVote={handleVote} />
       </article>
     );
   } else {

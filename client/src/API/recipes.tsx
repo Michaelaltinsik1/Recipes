@@ -14,3 +14,10 @@ export const fetchRecipesById = async (id: string) => {
   // console.log("recipes by id", id);
   return await axios.get(`/recipes/${id}`);
 };
+
+export const postRating = async (id: string, rating: number) => {
+  // console.log("recipes by id", id);
+  return await axios.post(`/recipes/${id}/rating`, {
+    newRating: rating,
+  });
+};

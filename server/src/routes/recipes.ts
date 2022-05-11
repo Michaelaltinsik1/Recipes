@@ -1,6 +1,11 @@
 import express from "express";
 
-import { getRecipes, getRecipesByQuery, getRecipeById } from "../db/recipe";
+import {
+  getRecipes,
+  getRecipesByQuery,
+  getRecipeById,
+  postRecipeById,
+} from "../db/recipe";
 
 const router = express.Router();
 
@@ -33,6 +38,18 @@ router.get(
     let id = params.recipeId;
     const recipeById = await getRecipeById(id);
     res.send(recipeById);
+  }
+);
+
+router.post(
+  "/:recipeId/rating",
+  async (req: express.Request, rest: express.Response) => {
+    if (
+      req.body.hasOwnProperty("newRating") &&
+      req.params.hasOwnProperty("recipeId")
+    ) {
+      await postRecipeById(req.body.newRating, req.params.recipeId);
+    }
   }
 );
 
