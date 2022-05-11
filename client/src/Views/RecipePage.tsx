@@ -5,10 +5,11 @@ import Recipe from "../Components/Recipe";
 import IngredientsList from "../Components/IngredientsList";
 import InstructionsList from "../Components/InstructionsList";
 import { RecipeType } from "../types/RecipeType";
-
+import Vote from "../Components/Vote";
 const Recipepage = () => {
   const params = useParams();
   const [recipe, setRecipe] = useState<RecipeType>();
+  const [isRated, setRatedState] = useState<boolean>(false);
   //   title: "",
   //   description: "",
   //   imageURL: "",
@@ -50,6 +51,9 @@ const Recipepage = () => {
       <article>
         <h2>Instructions</h2>
         <InstructionsList instructions={recipe?.instructions} />
+      </article>
+      <article>
+        <Vote isVoted={isRated} />
       </article>
     </>
   );
