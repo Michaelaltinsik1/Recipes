@@ -5,7 +5,7 @@ import {
   fetchRecipesByCategory,
   fetchRecipesByCategoryAndQuery,
 } from "../API/categoris";
-
+import { CategoriesType } from "../types/RecipeType";
 import SearchField from "../Components/SearchField";
 import { useEffect, useState } from "react";
 import CategoryList from "../Components/CategoryList";
@@ -24,7 +24,7 @@ const HomePage = () => {
   );
   const [searchParams, setSearchParams] = useSearchParams();
 
-  function updateSearchParams(data: any) {
+  function updateSearchParams(data: string) {
     setSearchParams({ search: data });
   }
   const [recipesState, setRecipes] = useState([]);
@@ -56,7 +56,9 @@ const HomePage = () => {
   useEffect(() => {
     if (params.hasOwnProperty("categoryId") && !searchParams.get("search")) {
       let query = params.categoryId;
-      getRecipiesByCategory(query);
+      if (query) {
+        getRecipiesByCategory(query);
+      }
     } // else if (!searchParams.get("search")) {
     getCategories();
     //}
@@ -70,7 +72,7 @@ const HomePage = () => {
     getRecipes();
   }, []);
 
-  const getRecipiesByCategory = async (query: any) => {
+  const getRecipiesByCategory = async (query: string) => {
     const categoriesByQuery = await fetchRecipesByCategory(query);
     setRecipes(categoriesByQuery.data);
   };
@@ -82,16 +84,15 @@ const HomePage = () => {
     const filteredCategories = filterRedundantCategories(allCategories.data);
     setCategories(filteredCategories);
   };
-  function handleNavigation(id: any) {
-    console.log(id);
+  function handleNavigation(id: string) {
     navigate(`/recipe/${id}`);
   }
   return (
     <div className="App">
       {recipesState && (
         <RecipesList
-          handleNavigation={handleNavigation}
           recipes={recipesState}
+          handleNavigation={handleNavigation}
         />
       )}
       <CategoryList
@@ -105,7 +106,8 @@ const HomePage = () => {
 };
 export default HomePage;
 
-function filterRedundantCategories(fetchedData: any): Set<string> {
+/**Kolla typen igen */
+function filterRedundantCategories(fetchedData: CategoriesType[]): Set<string> {
   let filteredCategories: Set<string> = new Set();
   for (let item of fetchedData) {
     for (let i = 0; i < item.categories.length; i++) {
@@ -114,7 +116,7 @@ function filterRedundantCategories(fetchedData: any): Set<string> {
   }
   return filteredCategories;
 }
-function getCategoriesUnFiltered(data: any): string[] {
+function getCategoriesUnFiltered(data: CategoriesType[]): string[] {
   const values: string[] = [];
   for (let item of data) {
     for (let i = 0; i < item.categories.length; i++) {

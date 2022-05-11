@@ -32,9 +32,11 @@ const Recipepage = () => {
   // });
   useEffect(() => {
     const getRecipeById = async () => {
-      let id: any = params.recipeId;
-      let recipeById = await fetchRecipesById(id);
-      setRecipe(recipeById.data);
+      if (params.recipeId) {
+        let id: string = params.recipeId;
+        let recipeById = await fetchRecipesById(id);
+        setRecipe(recipeById.data);
+      }
     };
     getRecipeById();
   }, [params]);

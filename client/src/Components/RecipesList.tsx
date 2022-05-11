@@ -1,44 +1,18 @@
 import Recipe from "./Recipe";
+import { RecipeType } from "../types/RecipeType";
 
-// interface RecipeType {
-//   title?: string;
-//   description?: string;
-//   imageURL?: string;
-//   timeInMins?: number;
-//   ratings?: number[];
-//   categories?: [category: string];
-//   ingredients?: [
-//     {
-//       ingredient: string;
-//       amount: number;
-//       unit: string;
-//     }
-//   ];
-//   instructions?: [
-//     {
-//       instruction: string;
-//       prio: number;
-//     }
-//   ];
-//   comments?: [
-//     {
-//       comment: string;
-//       name: string;
-//       createdAt: Date;
-//     }
-//   ];
-// }
-
-const RecipesList = ({ recipes, handleNavigation }: any) => {
-  // console.log("recipes:", recipes);
-  if (recipes.length > 0) {
+const RecipesList = (props: {
+  recipes: RecipeType[];
+  handleNavigation: Function;
+}) => {
+  if (props.recipes.length > 0) {
     return (
       <section>
-        {recipes.map((recipe: any) => (
+        {props.recipes.map((recipe: RecipeType) => (
           <Recipe
             key={recipe._id}
             recipe={recipe}
-            handleNavigation={handleNavigation}
+            handleNavigation={props.handleNavigation}
           />
         ))}
       </section>

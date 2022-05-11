@@ -1,4 +1,5 @@
 export interface RecipeType {
+  _id?: string;
   title: string;
   description: string;
   imageURL: string;
@@ -25,4 +26,8 @@ export interface RecipeType {
       createdAt: Date;
     }
   ];
+}
+
+export interface CategoriesType {
+  categories: [string];
 }

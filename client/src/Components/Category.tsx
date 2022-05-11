@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-// interface CategoryProps {
-//   category: React.ReactNode;
-// }
+interface CategoryType {
+  category: string;
+  unfiltered: Array<string>;
+}
 
-function findFrequencyCategory(category: any, unfiltered: any) {
+function findFrequencyCategory({ category, unfiltered }: CategoryType) {
   let count = 0;
-  // console.log(unfiltered);
-  unfiltered.forEach((element: any) => {
+  unfiltered.forEach((element: string) => {
     if (element === category) {
       count++;
     }
@@ -15,15 +15,11 @@ function findFrequencyCategory(category: any, unfiltered: any) {
   return count;
 }
 
-const Category = ({ category, unfiltered }: any) => {
-  //console.log("category: ", category);
+const Category = ({ category, unfiltered }: CategoryType) => {
   let navigate = useNavigate();
   return (
-    // <li onClick={(e) => console.log(category)}>
-    //   {category} ({findFrequencyCategory(category, unfiltered)})
-    // </li>
     <li onClick={(e) => navigate("/category/" + category)}>
-      {category} ({findFrequencyCategory(category, unfiltered)})
+      {category} ({findFrequencyCategory({ category, unfiltered })})
     </li>
   );
 };

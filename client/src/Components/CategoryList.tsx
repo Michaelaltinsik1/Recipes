@@ -1,6 +1,12 @@
 import Category from "./Category";
-
-const CategoryList = ({ categories, unfilteredCategories }: any) => {
+interface CategoryListType {
+  categories: Set<string>;
+  unfilteredCategories: Array<string>;
+}
+const CategoryList = ({
+  categories,
+  unfilteredCategories,
+}: CategoryListType) => {
   let listOfCategories = [];
   let iterator = categories.values();
   for (let i = 0; i < categories.size; i++) {
@@ -11,7 +17,7 @@ const CategoryList = ({ categories, unfilteredCategories }: any) => {
       <>
         <h2>Categories</h2>
         <ol>
-          {listOfCategories.map((element: any) => (
+          {listOfCategories.map((element: string) => (
             <Category
               key={element}
               category={element}
@@ -27,11 +33,3 @@ const CategoryList = ({ categories, unfilteredCategories }: any) => {
 };
 
 export default CategoryList;
-
-// return (
-//   <ol>
-//     {categories.map((singleCategory: any) => (
-//       <Category category={singleCategory} />
-//     ))}
-//   </ol>
-// );

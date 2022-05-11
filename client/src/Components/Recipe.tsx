@@ -1,49 +1,33 @@
-// interface RecipeType {
-//   title: string;
-//   description: string;
-//   imageURL: string;
-//   timeInMins: number;
-//   ratings: number[];
-//   categories: [category: string];
-//   ingredients: [
-//     {
-//       ingredient: string;
-//       amount: number;
-//       unit: string;
-//     }
-//   ];
-//   instructions: [
-//     {
-//       instruction: string;
-//       prio: number;
-//     }
-//   ];
-//   comments?: [
-//     {
-//       comment: string;
-//       name: string;
-//       createdAt: Date;
-//     }
-//   ];
-// }
+import { RecipeType } from "../types/RecipeType";
 
-const Recipe = ({
-  recipe,
-  handleNavigation = function () {},
-  page = "",
-}: any) => {
+const Recipe = (props: {
+  recipe: RecipeType;
+  handleNavigation?: Function;
+  page?: string;
+}) => {
   return (
-    <article onClick={() => handleClick(recipe._id)}>
-      <h1>{recipe.title}</h1>
-      <p>{recipe.description}</p>
-      {<p>{recipe.ingredients.length} INGREDIENTS</p>}
-      <p>{recipe.timeInMins} MINUTES</p>
-      <img src={recipe.imageURL} alt={recipe.title} width="300" height="200" />
-      {page && <h1>Hello</h1>}
+    <article
+      onClick={() => {
+        if (props.recipe._id) handleClick(props.recipe._id);
+      }}
+    >
+      <h1>{props.recipe.title}</h1>
+      <p>{props.recipe.description}</p>
+      {<p>{props.recipe.ingredients.length} INGREDIENTS</p>}
+      <p>{props.recipe.timeInMins} MINUTES</p>
+      <img
+        src={props.recipe.imageURL}
+        alt={props.recipe.title}
+        width="300"
+        height="200"
+      />
+      {props.page && <h1>Hello</h1>}
     </article>
   );
-  function handleClick(id: any) {
-    handleNavigation(id);
+  function handleClick(id: string) {
+    if (props.handleNavigation) {
+      props.handleNavigation(id);
+    }
   }
 };
 

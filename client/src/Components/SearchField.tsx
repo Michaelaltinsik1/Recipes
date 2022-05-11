@@ -1,7 +1,11 @@
 import { useState } from "react";
 import searchIcon from "../images/searchIcon.svg";
 
-const SearchField = ({ updateSearchParams }: any) => {
+interface SearchFieldType {
+  updateSearchParams: Function;
+}
+
+const SearchField = ({ updateSearchParams }: SearchFieldType) => {
   const [inputState, setInput] = useState("");
   // const [searchParams, setSearchParams] = useSearchParams();
   return (
@@ -15,19 +19,17 @@ const SearchField = ({ updateSearchParams }: any) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          if (inputState) {
-            handleClick();
-          }
+          handleClick();
         }}
       >
         <img src={searchIcon} alt="Search icon" width={20} height={20} />
       </button>
     </form>
   );
-  function updateState(data: any) {
+  function updateState(data: string) {
     setInput(data);
   }
-  function handleKeyPress(key: any) {
+  function handleKeyPress(key: string) {
     if (key === "Enter") {
       if (inputState) {
         //setSearchParams({ search: inputState });
