@@ -5,6 +5,8 @@ import {
   getRecipesByQuery,
   getRecipeById,
   postRecipeById,
+  getCommentsById,
+  postCommentsById,
 } from "../db/recipe";
 
 const router = express.Router();
@@ -24,6 +26,7 @@ router.get("/", async (req: express.Request, res: express.Response) => {
     }
   } else {
     const recipes = await getRecipes();
+    console.log(new Date());
     res.json(recipes);
   }
 });
@@ -49,6 +52,26 @@ router.post(
       req.params.hasOwnProperty("recipeId")
     ) {
       await postRecipeById(req.body.newRating, req.params.recipeId);
+    }
+  }
+);
+
+router.get(
+  "/:recipeId/comments",
+  async (req: express.Request, res: express.Response) => {
+    const params = req.params;
+    let id = params.recipeId;
+    const commentById = await getCommentsById(id);
+    res.send(commentById);
+  }
+);
+
+router.post(
+  "/:recipeId/comments",
+  async (req: express.Request, res: express.Response) => {
+    console.log("post a comment");
+    if (req.params.hasOwnProperty("recipeId")) {
+      await postCommentsById(req.params.recipeId, req.body);
     }
   }
 );

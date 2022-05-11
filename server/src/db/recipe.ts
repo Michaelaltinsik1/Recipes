@@ -17,7 +17,24 @@ export const getRecipesByQuery = async (searchString: Object) => {
 };
 
 export const postRecipeById = async (rating: number, id: string) => {
-  console.log("Rating:", rating);
-  console.log("Id: ", id);
   await RecipeModel.updateOne({ _id: id }, { $push: { ratings: rating } });
+};
+
+export const getCommentsById = async (id: string) => {
+  return await RecipeModel.findOne(
+    { _id: id },
+    {
+      _id: 0,
+      comments: 1,
+    }
+  );
+};
+
+interface CommentType {
+  comment: string;
+  name: string;
+  createdAt: Date;
+}
+export const postCommentsById = async (id: string, comment: CommentType) => {
+  await RecipeModel.updateOne({ _id: id }, { $push: { comments: comment } });
 };
