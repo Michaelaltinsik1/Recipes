@@ -1,14 +1,13 @@
 import Comment from "./Comment";
-export interface CommentType {
-  comments: { comment: string; name: string; createdAt: Date };
-}
-const CommentList = ({ comments }: any) => {
-  console.log("Comments: ", comments);
-  console.log("typeof: ", typeof comments);
+import { CommentType } from "../types/CommentType";
+// export interface CommentType {
+//   comments: { comment: string; name: string; createdAt: Date };
+// }
+const CommentList = (props: { comments: Array<CommentType> }) => {
   return (
     <section>
-      {comments.map((comment: any) => (
-        <Comment comment={comment} />
+      {props.comments.map((element: CommentType) => (
+        <Comment key={element._id} comment={element} />
       ))}
     </section>
   );

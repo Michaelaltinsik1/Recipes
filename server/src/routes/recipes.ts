@@ -69,7 +69,7 @@ router.post(
   "/:recipeId/comments",
   async (req: express.Request, res: express.Response) => {
     if (req.params.hasOwnProperty("recipeId")) {
-      await postCommentsById(req.params.recipeId, req.body);
+      await postCommentsById(req.params.recipeId, req.body.comments);
     }
   }
 );

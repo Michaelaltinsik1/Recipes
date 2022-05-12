@@ -4,3 +4,8 @@ export interface CommentType {
   createdAt: Date;
   _id?: string;
 }
+
+export interface NewCommentType {
+  comment: string;
+  name: string;
+}

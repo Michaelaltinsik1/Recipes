@@ -1,18 +1,11 @@
-// import { CommentType } from "../types/CommentType";
+import { CommentType } from "../types/CommentType";
 
-export interface CommentType {
-  comment: string;
-  name: string;
-  createdAt: Date;
-}
-const Comment = ({ comment }: any) => {
-  console.log(comment);
+const Comment = (props: { comment: CommentType }) => {
   return (
-    // <></>
     <article>
-      <h3>{comment.name}</h3>
-      <p>{comment.comment}</p>
-      <p>{comment.createdAt}</p>
+      <h3>{props.comment.name}</h3>
+      <p>{props.comment.comment}</p>
+      <p>{props.comment.createdAt.toString()}</p>
     </article>
   );
 };

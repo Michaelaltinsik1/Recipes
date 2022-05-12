@@ -11,8 +11,9 @@ import IngredientsList from "../Components/IngredientsList";
 import InstructionsList from "../Components/InstructionsList";
 import { RecipeType } from "../types/RecipeType";
 import Vote from "../Components/Vote";
-import { CommentType } from "../types/CommentType";
+import { CommentType, NewCommentType } from "../types/CommentType";
 import CommentList from "../Components/CommentList";
+import CommentForm from "../Components/CommentForm";
 
 const Recipepage = () => {
   const params = useParams();
@@ -20,6 +21,10 @@ const Recipepage = () => {
   const [isRated, setRatedState] = useState<boolean>(false);
   const [currVote, setVote] = useState<number>(-1);
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [newComment, setNewComment] = useState<NewCommentType>({
+    comment: "",
+    name: "",
+  });
   // const [comments, setComments] = useState<any>([]);
   /**
    * Gets recipe by id from database
@@ -56,23 +61,44 @@ const Recipepage = () => {
    */
   useEffect(() => {
     const handleComments = async () => {
-      if (comments.length === 0) {
+      // if (comments.length === 0) {
+
+      if (
+        params.recipeId &&
+        newComment.name !== "" &&
+        newComment.comment !== ""
+      ) {
+        const commentToPost: CommentType = {
+          comment: newComment.comment,
+          name: newComment.name,
+          createdAt: new Date(),
+        };
+        console.log("test");
+        await postComments(params.recipeId, commentToPost);
+        const getCommentsById = await fetchCommentsById(params.recipeId);
+        setComments(getCommentsById.data.comments);
+      } else {
         if (params.recipeId) {
           const getCommentsById = await fetchCommentsById(params.recipeId);
           setComments(getCommentsById.data.comments);
         }
-      } else {
-        console.log("post");
       }
-      return () => console.log("clean up");
     };
     handleComments();
-  }, []);
-  // return <Recipe recipe={recipe} />;
+  }, [newComment.comment, newComment.name, params.recipeId]);
 
   function handleVote(value: number) {
     setVote(value);
     setRatedState(true);
+  }
+  function handleCommentSubmit(comment: string, name: string) {
+    const obj: NewCommentType = {
+      comment: comment,
+      name: name,
+    };
+    setNewComment(obj);
+    console.log("Comment: ", comment);
+    console.log("Name: ", name);
   }
   return (
     <>
@@ -92,6 +118,7 @@ const Recipepage = () => {
       </article>
       <div>
         <h2>Comments</h2>
+        <CommentForm handleCommentSubmit={handleCommentSubmit} />
         <CommentList comments={comments} />
       </div>
     </>

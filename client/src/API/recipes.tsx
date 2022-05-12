@@ -29,6 +29,7 @@ export const fetchCommentsById = async (id: string) => {
 };
 
 export const postComments = async (id: string, comments: CommentType) => {
+  console.log(comments);
   await axios.post(`/recipes/${id}/comments`, {
     comments: comments,
   });
