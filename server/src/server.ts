@@ -1,6 +1,6 @@
 import recipesRouter from "./routes/recipes";
 import categoriesRouter from "./routes/categories";
-
+import cors from "cors";
 import express, { Request, Response } from "express";
 import { connect } from "mongoose";
 import dotenv from "dotenv";
@@ -20,7 +20,7 @@ connect(url)
 const app = express();
 const port = process.env.PORT || 4000;
 app.use(express.json());
-
+app.use(cors());
 //Routers
 app.use("/recipes", recipesRouter);
 app.use("/categories", categoriesRouter);
