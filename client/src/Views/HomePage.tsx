@@ -1,10 +1,12 @@
-import { fetchRecipes, fetchRecipesByQuery } from "../API/recipes";
-
 import {
-  fetchCategories,
-  fetchRecipesByCategory,
-  fetchRecipesByCategoryAndQuery,
-} from "../API/categoris";
+  fetchRecipesByQueryFromAPI,
+  fetchRecipesFromAPI,
+  fetchRecipesByCategoryFromAPI,
+  fetchRecipesByCategoryAndQueryFromApi,
+} from "../features/recipes/recipesSlice";
+import { fetchCategoriesFromAPI } from "../features/categories/categoriesSlice";
+
+import { fetchCategories } from "../API/categoris";
 import { CategoriesType } from "../types/RecipeType";
 import SearchField from "../Components/SearchField";
 import { useEffect, useState } from "react";
@@ -15,6 +17,7 @@ import {
   useSearchParams,
   useNavigate,
 } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
 
 const HomePage = () => {
   let navigate = useNavigate();
@@ -27,26 +30,27 @@ const HomePage = () => {
   function updateSearchParams(data: string) {
     setSearchParams({ search: data });
   }
-  const [recipesState, setRecipes] = useState([]);
   let params = useParams();
 
+  const dispatch = useAppDispatch();
+  const recipes = useAppSelector((state) => state.recipes.recipes);
+  // const categoriesFetched = useAppSelector(
+  //   (state) => state.categories.categories
+  // );
   useEffect(() => {
     const recipesByQuery = async () => {
       if (searchParams.get("search") && params.hasOwnProperty("categoryId")) {
         let queryString = searchParams.get("search");
         let category = params.categoryId;
         if (category && queryString) {
-          const recipes = await fetchRecipesByCategoryAndQuery(
-            category,
-            queryString
+          dispatch(
+            fetchRecipesByCategoryAndQueryFromApi({ category, queryString })
           );
-          setRecipes(recipes.data);
         }
       } else if (searchParams.get("search")) {
         let queryString = searchParams.get("search");
         if (queryString) {
-          const recipes = await fetchRecipesByQuery(queryString);
-          setRecipes(recipes.data);
+          dispatch(fetchRecipesByQueryFromAPI(queryString));
         }
       }
     };
@@ -59,22 +63,16 @@ const HomePage = () => {
       if (query) {
         getRecipiesByCategory(query);
       }
-    } // else if (!searchParams.get("search")) {
+    }
     getCategories();
-    //}
   }, [params, searchParams]);
 
   useEffect(() => {
-    const getRecipes = async () => {
-      const recipes = await fetchRecipes();
-      setRecipes(recipes.data);
-    };
-    getRecipes();
+    dispatch(fetchRecipesFromAPI());
   }, []);
 
   const getRecipiesByCategory = async (query: string) => {
-    const categoriesByQuery = await fetchRecipesByCategory(query);
-    setRecipes(categoriesByQuery.data);
+    dispatch(fetchRecipesByCategoryFromAPI(query));
   };
 
   const getCategories = async () => {
@@ -84,29 +82,26 @@ const HomePage = () => {
     const filteredCategories = filterRedundantCategories(allCategories.data);
     setCategories(filteredCategories);
   };
+
   function handleNavigation(id: string) {
     navigate(`/recipe/${id}`);
   }
+
   return (
     <div className="App">
-      {recipesState && (
-        <RecipesList
-          recipes={recipesState}
-          handleNavigation={handleNavigation}
-        />
+      {recipes && (
+        <RecipesList recipes={recipes} handleNavigation={handleNavigation} />
       )}
       <CategoryList
         categories={categories}
         unfilteredCategories={unFilteredCategories}
       />
       <SearchField updateSearchParams={updateSearchParams} />
-      {/* <Outlet /> */}
     </div>
   );
 };
 export default HomePage;
 
-/**Kolla typen igen */
 function filterRedundantCategories(fetchedData: CategoriesType[]): Set<string> {
   let filteredCategories: Set<string> = new Set();
   for (let item of fetchedData) {
