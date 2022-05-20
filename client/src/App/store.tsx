@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 import categoriesSlice from "../features/categories/categoriesSlice";
 import recipesSlice from "../features/recipes/recipesSlice";
 
