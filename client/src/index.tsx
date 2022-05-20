@@ -5,12 +5,14 @@ import HomePage from "./Views/HomePage";
 import RecipePage from "./Views/RecipePage";
 import NoMatchPage from "./Views/NoMatch";
 import "./index.css";
-
+import { Provider } from "react-redux";
+import { store } from "./App/store";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -19,9 +21,6 @@ root.render(
         <Route path="*" element={<NoMatchPage />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </Provider>
+  // </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
