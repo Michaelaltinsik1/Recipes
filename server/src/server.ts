@@ -6,11 +6,6 @@ import { connect } from "mongoose";
 
 const url = `mongodb+srv://Michael1994:Kb7lZbpMrohh8F09@cluster0.v0e70.mongodb.net/RECIPESAPP?retryWrites=true&w=majority`;
 
-// const connectionParams = {
-//   useNewUrlParser: true,
-//   useCreateIndex: true,
-//   useUnifiedTopology: true,
-// };
 connect(url)
   .then(() => {
     console.log("Connected to the database ");
@@ -19,9 +14,6 @@ connect(url)
     console.error(`Error connecting to the database. n${err}`);
   });
 
-// connect(
-//   "mongodb+srv://Michael1994:Kb7lZbpMrohh8F09@cluster0.v0e70.mongodb.net/RECIPESAPP?retryWrites=true&w=majority"
-// );
 const app = express();
 const port = 4000;
 app.use(express.json());
