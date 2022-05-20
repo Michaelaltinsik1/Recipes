@@ -4,7 +4,7 @@ import {
   fetchRecipesByCategoryFromAPI,
   fetchRecipesByCategoryAndQueryFromApi,
 } from "../features/recipes/recipesSlice";
-import { fetchCategoriesFromAPI } from "../features/categories/categoriesSlice";
+//import { fetchCategoriesFromAPI } from "../features/categories/categoriesSlice";
 
 import { fetchCategories } from "../API/categoris";
 import { CategoriesType } from "../types/RecipeType";
@@ -55,25 +55,26 @@ const HomePage = () => {
       }
     };
     recipesByQuery();
-  }, [searchParams, params]);
+  }, [searchParams, params, dispatch]);
 
   useEffect(() => {
     if (params.hasOwnProperty("categoryId") && !searchParams.get("search")) {
       let query = params.categoryId;
       if (query) {
-        getRecipiesByCategory(query);
+        //getRecipiesByCategory(query);
+        dispatch(fetchRecipesByCategoryFromAPI(query));
       }
     }
     getCategories();
-  }, [params, searchParams]);
+  }, [dispatch, params, searchParams]);
 
   useEffect(() => {
     dispatch(fetchRecipesFromAPI());
-  }, []);
+  }, [dispatch]);
 
-  const getRecipiesByCategory = async (query: string) => {
-    dispatch(fetchRecipesByCategoryFromAPI(query));
-  };
+  // const getRecipiesByCategory = async (query: string) => {
+  //   dispatch(fetchRecipesByCategoryFromAPI(query));
+  // };
 
   const getCategories = async () => {
     const allCategories = await fetchCategories();
