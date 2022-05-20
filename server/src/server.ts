@@ -3,8 +3,11 @@ import categoriesRouter from "./routes/categories";
 
 import express, { Request, Response } from "express";
 import { connect } from "mongoose";
+import dotenv from "dotenv";
 
-const url = `mongodb+srv://Michael1994:Kb7lZbpMrohh8F09@cluster0.v0e70.mongodb.net/RECIPESAPP?retryWrites=true&w=majority`;
+dotenv.config();
+
+const url = process.env.MONGOCONNECTIONSTRING;
 
 connect(url)
   .then(() => {
