@@ -9,12 +9,11 @@ interface InstructionType {
 }
 const InstructionsList = ({ instructions }: InstructionsType) => {
   if (instructions) {
-    let sortedInstructions = instructions.sort(sortByPrioAscending);
-
+    let temp = [...instructions];
+    let sortedInstructions = temp.sort(sortByPrioAscending);
     return (
       <ol>
         {sortedInstructions.map((instruction: InstructionType) => (
-          // <Ingredient ingredient={ingredient.ingredient} />
           <Instruction
             key={instruction.prio}
             instruction={instruction.instruction}

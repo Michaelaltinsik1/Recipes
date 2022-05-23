@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchCategories } from "../../API/categoris";
 
-const initialState = {
+export const initialState = {
   categories: [],
 };
 

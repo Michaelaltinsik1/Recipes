@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  fetchRecipesById,
-  postRating,
-  fetchCommentsById,
-  postComments,
-} from "../API/recipes";
+import { postRating, fetchCommentsById, postComments } from "../API/recipes";
 import Recipe from "../Components/Recipe";
 import IngredientsList from "../Components/IngredientsList";
 import InstructionsList from "../Components/InstructionsList";
@@ -15,9 +10,12 @@ import { CommentType, NewCommentType } from "../types/CommentType";
 import CommentList from "../Components/CommentList";
 import CommentForm from "../Components/CommentForm";
 
+import { useAppDispatch, useAppSelector } from "../App/hooks";
+import { fetchRecipeByIdFromAPI } from "../features/recipes/recipesSlice";
+
 const Recipepage = () => {
   const params = useParams();
-  const [recipe, setRecipe] = useState<RecipeType>();
+  //const [recipe, setRecipe] = useState<RecipeType>();
   const [isRated, setRatedState] = useState<boolean>(false);
   const [currVote, setVote] = useState<number>(-1);
   const [comments, setComments] = useState<CommentType[]>([]);
@@ -29,17 +27,23 @@ const Recipepage = () => {
   /**
    * Gets recipe by id from database
    */
+  const dispatch = useAppDispatch();
+  const recipe = useAppSelector<RecipeType | null>(
+    (state) => state.recipes.singleRecipe
+  );
+  console.log(recipe);
   useEffect(() => {
-    const getRecipeById = async () => {
-      if (params.recipeId) {
-        let id: string = params.recipeId;
-        let recipeById = await fetchRecipesById(id);
-        // await postRating(id, 8);
-        setRecipe(recipeById.data);
-      }
-    };
-    getRecipeById();
-  }, [params]);
+    //const getRecipeById = async () => {
+    if (params.recipeId) {
+      let id: string = params.recipeId;
+      //let recipeById = await fetchRecipesById(id);
+      dispatch(fetchRecipeByIdFromAPI(id));
+      // await postRating(id, 8);
+      //setRecipe(recipeById.data);
+    }
+    //};
+    // getRecipeById();
+  }, [dispatch, params]);
 
   /**
    * Handle post rating communication with database
@@ -97,8 +101,6 @@ const Recipepage = () => {
       name: name,
     };
     setNewComment(obj);
-    console.log("Comment: ", comment);
-    console.log("Name: ", name);
   }
   return (
     <>

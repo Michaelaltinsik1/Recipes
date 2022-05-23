@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchRecipes, fetchRecipesByQuery } from "../../API/recipes";
+import {
+  fetchRecipes,
+  fetchRecipesByQuery,
+  fetchRecipesById,
+} from "../../API/recipes";
 import {
   fetchRecipesByCategory,
   fetchRecipesByCategoryAndQuery,
@@ -7,7 +11,16 @@ import {
 
 const initialState = {
   recipes: [],
+  singleRecipe: null,
 };
+
+export const fetchRecipeByIdFromAPI = createAsyncThunk(
+  "recipes/fetchRecipeById",
+  async (id: string) => {
+    const response = await fetchRecipesById(id);
+    return response.data;
+  }
+);
 
 export const fetchRecipesFromAPI = createAsyncThunk(
   "recipes/fetchRecipes",
@@ -69,6 +82,9 @@ export const recipesSlice = createSlice({
         state.recipes = action.payload;
       }
     );
+    builder.addCase(fetchRecipeByIdFromAPI.fulfilled, (state, action) => {
+      state.singleRecipe = action.payload;
+    });
   },
 });
 
