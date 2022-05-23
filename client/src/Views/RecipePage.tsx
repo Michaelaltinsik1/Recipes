@@ -20,12 +20,10 @@ import {
 const Recipepage = () => {
   const params = useParams();
   const [currVote, setVote] = useState<number>(-1);
-  // const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState<NewCommentType>({
     comment: "",
     name: "",
   });
-  // const [comments, setComments] = useState<any>([]);
   /**
    * Gets recipe by id from database
    */
@@ -48,16 +46,13 @@ const Recipepage = () => {
    */
   useEffect(() => {
     if (currVote > 0) {
-      const postRecipeById = async () => {
-        if (params.recipeId) {
-          const obj = {
-            id: params.recipeId,
-            rating: currVote,
-          };
-          await dispatch(postRatingToAPI(obj));
-        }
-      };
-      postRecipeById();
+      if (params.recipeId) {
+        const obj = {
+          id: params.recipeId,
+          rating: currVote,
+        };
+        dispatch(postRatingToAPI(obj));
+      }
     } else {
       dispatch(ratingSlice.actions.resetInitState());
     }
@@ -80,21 +75,15 @@ const Recipepage = () => {
           name: newComment.name,
           createdAt: new Date(),
         };
-        console.log("test");
-        //await postComments(params.recipeId, commentToPost);
         const obj = {
           id: params.recipeId,
           comment: commentToPost,
         };
         await dispatch(postCommentByIdToAPI(obj));
-        //const getCommentsById = await fetchCommentsById(params.recipeId);
-        //setComments(getCommentsById.data.comments);
         await dispatch(fetchCommentByIdToAPI(params.recipeId));
       } else {
         if (params.recipeId) {
           await dispatch(fetchCommentByIdToAPI(params.recipeId));
-          //const getCommentsById = await fetchCommentsById(params.recipeId);
-          //setComments(getCommentsById.data.comments);
         }
       }
     };
