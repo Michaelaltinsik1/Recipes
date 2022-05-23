@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../App/hooks";
 import { fetchRecipeByIdFromAPI } from "../features/recipes/recipesSlice";
 import { postRatingToAPI, ratingSlice } from "../features/ratings/ratingSlice";
 import {
+  commentsSlice,
   postCommentByIdToAPI,
   fetchCommentByIdToAPI,
 } from "../features/comments/commentsSlice";
@@ -90,6 +91,11 @@ const Recipepage = () => {
     handleComments();
   }, [dispatch, newComment.comment, newComment.name, params.recipeId]);
 
+  useEffect(() => {
+    console.log("run only once");
+    // dispatch(ratingSlice.actions.resetInitState());
+    dispatch(commentsSlice.actions.resetFormState());
+  }, [dispatch]);
   function handleVote(value: number) {
     setVote(value);
   }

@@ -37,7 +37,11 @@ export const fetchCommentByIdToAPI = createAsyncThunk(
 export const commentsSlice = createSlice({
   name: "comments",
   initialState,
-  reducers: {},
+  reducers: {
+    resetFormState: (state) => {
+      state.isFormSent = false;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(postCommentByIdToAPI.pending, (state) => {
       state.isFormSent = true;
