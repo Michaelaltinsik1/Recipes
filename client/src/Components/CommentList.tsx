@@ -1,12 +1,14 @@
 import Comment from "./Comment";
 import { CommentType } from "../types/CommentType";
-// export interface CommentType {
-//   comments: { comment: string; name: string; createdAt: Date };
-// }
-const CommentList = (props: { comments: Array<CommentType> }) => {
+import { useAppSelector } from "../App/hooks";
+const CommentList = () => {
+  const comments = useAppSelector<Array<CommentType> | []>(
+    (state) => state.comments.comments
+  );
+  console.log("comments1: ", comments);
   return (
     <section>
-      {props.comments.map((element: CommentType) => (
+      {comments.map((element: CommentType) => (
         <Comment key={element._id} comment={element} />
       ))}
     </section>

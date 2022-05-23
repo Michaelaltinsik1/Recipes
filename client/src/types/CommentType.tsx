@@ -1,7 +1,7 @@
 export interface CommentType {
   comment: string;
   name: string;
-  createdAt: Date;
+  createdAt?: Date;
   _id?: string;
 }
 

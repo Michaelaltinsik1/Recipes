@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { postRating, fetchCommentsById, postComments } from "../API/recipes";
 import Recipe from "../Components/Recipe";
 import IngredientsList from "../Components/IngredientsList";
 import InstructionsList from "../Components/InstructionsList";
@@ -12,13 +11,16 @@ import CommentForm from "../Components/CommentForm";
 
 import { useAppDispatch, useAppSelector } from "../App/hooks";
 import { fetchRecipeByIdFromAPI } from "../features/recipes/recipesSlice";
+import { postRatingToAPI, ratingSlice } from "../features/ratings/ratingSlice";
+import {
+  postCommentByIdToAPI,
+  fetchCommentByIdToAPI,
+} from "../features/comments/commentsSlice";
 
 const Recipepage = () => {
   const params = useParams();
-  //const [recipe, setRecipe] = useState<RecipeType>();
-  const [isRated, setRatedState] = useState<boolean>(false);
   const [currVote, setVote] = useState<number>(-1);
-  const [comments, setComments] = useState<CommentType[]>([]);
+  // const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState<NewCommentType>({
     comment: "",
     name: "",
@@ -31,18 +33,14 @@ const Recipepage = () => {
   const recipe = useAppSelector<RecipeType | null>(
     (state) => state.recipes.singleRecipe
   );
-  console.log(recipe);
+  // const comments = useAppSelector<CommentType | []>(
+  //   (state) => state.comments.comments
+  // );
   useEffect(() => {
-    //const getRecipeById = async () => {
     if (params.recipeId) {
       let id: string = params.recipeId;
-      //let recipeById = await fetchRecipesById(id);
       dispatch(fetchRecipeByIdFromAPI(id));
-      // await postRating(id, 8);
-      //setRecipe(recipeById.data);
     }
-    //};
-    // getRecipeById();
   }, [dispatch, params]);
 
   /**
@@ -52,13 +50,18 @@ const Recipepage = () => {
     if (currVote > 0) {
       const postRecipeById = async () => {
         if (params.recipeId) {
-          await postRating(params.recipeId, currVote);
+          const obj = {
+            id: params.recipeId,
+            rating: currVote,
+          };
+          await dispatch(postRatingToAPI(obj));
         }
       };
       postRecipeById();
-      // setVote(-1);
+    } else {
+      dispatch(ratingSlice.actions.resetInitState());
     }
-  }, [currVote, params]);
+  }, [currVote, dispatch, params]);
 
   /**
    * Handle comments communication with database
@@ -78,22 +81,28 @@ const Recipepage = () => {
           createdAt: new Date(),
         };
         console.log("test");
-        await postComments(params.recipeId, commentToPost);
-        const getCommentsById = await fetchCommentsById(params.recipeId);
-        setComments(getCommentsById.data.comments);
+        //await postComments(params.recipeId, commentToPost);
+        const obj = {
+          id: params.recipeId,
+          comment: commentToPost,
+        };
+        await dispatch(postCommentByIdToAPI(obj));
+        //const getCommentsById = await fetchCommentsById(params.recipeId);
+        //setComments(getCommentsById.data.comments);
+        await dispatch(fetchCommentByIdToAPI(params.recipeId));
       } else {
         if (params.recipeId) {
-          const getCommentsById = await fetchCommentsById(params.recipeId);
-          setComments(getCommentsById.data.comments);
+          await dispatch(fetchCommentByIdToAPI(params.recipeId));
+          //const getCommentsById = await fetchCommentsById(params.recipeId);
+          //setComments(getCommentsById.data.comments);
         }
       }
     };
     handleComments();
-  }, [newComment.comment, newComment.name, params.recipeId]);
+  }, [dispatch, newComment.comment, newComment.name, params.recipeId]);
 
   function handleVote(value: number) {
     setVote(value);
-    setRatedState(true);
   }
   function handleCommentSubmit(comment: string, name: string) {
     const obj: NewCommentType = {
@@ -116,12 +125,12 @@ const Recipepage = () => {
         <InstructionsList instructions={recipe?.instructions} />
       </article>
       <article>
-        <Vote isVoted={isRated} handleVote={handleVote} />
+        <Vote handleVote={handleVote} />
       </article>
       <div>
         <h2>Comments</h2>
         <CommentForm handleCommentSubmit={handleCommentSubmit} />
-        <CommentList comments={comments} />
+        <CommentList />
       </div>
     </>
   );

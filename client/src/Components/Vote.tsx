@@ -1,10 +1,10 @@
 import Stars from "./Stars";
-
+import { useAppSelector } from "../App/hooks";
 interface VoteType {
-  isVoted: boolean;
   handleVote: Function;
 }
-const Vote = ({ isVoted, handleVote }: VoteType) => {
+const Vote = ({ handleVote }: VoteType) => {
+  const isVoted = useAppSelector<boolean>((state) => state.ratings.isVoted);
   if (!isVoted) {
     return (
       <article>
