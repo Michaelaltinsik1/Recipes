@@ -16,7 +16,7 @@ const Recipe = (props: {
       <p>{props.recipe.description}</p>
       {<p>{props.recipe.ingredients.length} INGREDIENTS</p>}
       <p>{props.recipe.timeInMins} MINUTES</p>
-      {!props.page && <Stars starCount={getAvgRating(props.recipe.ratings)} />}
+      <Stars starCount={getAvgRating(props.recipe.ratings)} />
       <img
         src={props.recipe.imageURL}
         alt={props.recipe.title}
