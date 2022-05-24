@@ -28,7 +28,6 @@ const StyledParagraph = styled.p<StyledErrorProps>`
 `;
 const CommentForm = ({ handleCommentSubmit }: CommentFormType) => {
   const buttonState = useAppSelector((state) => state.comments.isFormSent);
-  console.log(buttonState);
   const [comment, setComment] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [error, setError] = useState<boolean>(false);

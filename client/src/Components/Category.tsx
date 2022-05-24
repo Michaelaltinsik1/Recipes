@@ -29,7 +29,6 @@ function findFrequencyCategory({ category, unfiltered }: CategoryType) {
 const Category = ({ category, unfiltered }: CategoryType) => {
   let navigate = useNavigate();
   const { categoryId } = useParams();
-  console.log(categoryId);
   return (
     <StyledLi
       categoryId={categoryId}

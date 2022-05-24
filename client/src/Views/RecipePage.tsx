@@ -32,9 +32,7 @@ const Recipepage = () => {
   const recipe = useAppSelector<RecipeType | null>(
     (state) => state.recipes.singleRecipe
   );
-  // const comments = useAppSelector<CommentType | []>(
-  //   (state) => state.comments.comments
-  // );
+
   useEffect(() => {
     if (params.recipeId) {
       let id: string = params.recipeId;
@@ -64,8 +62,6 @@ const Recipepage = () => {
    */
   useEffect(() => {
     const handleComments = async () => {
-      // if (comments.length === 0) {
-
       if (
         params.recipeId &&
         newComment.name !== "" &&
@@ -91,9 +87,10 @@ const Recipepage = () => {
     handleComments();
   }, [dispatch, newComment.comment, newComment.name, params.recipeId]);
 
+  /**
+   * Resets the form state when entering the recipepage
+   */
   useEffect(() => {
-    console.log("run only once");
-    // dispatch(ratingSlice.actions.resetInitState());
     dispatch(commentsSlice.actions.resetFormState());
   }, [dispatch]);
   function handleVote(value: number) {
@@ -109,15 +106,14 @@ const Recipepage = () => {
   return (
     <>
       {recipe && <Recipe recipe={recipe} page={"recipePage"} />}
-      {recipe && (
-        <article>
-          <h2>Ingredients</h2>
-          <IngredientsList ingredients={recipe.ingredients} />
-        </article>
-      )}
+
+      <article>
+        <h2>Ingredients</h2>
+        <IngredientsList />
+      </article>
       <article>
         <h2>Instructions</h2>
-        <InstructionsList instructions={recipe?.instructions} />
+        <InstructionsList />
       </article>
       <article>
         <Vote handleVote={handleVote} />

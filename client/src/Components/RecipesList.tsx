@@ -1,14 +1,12 @@
 import Recipe from "./Recipe";
 import { RecipeType } from "../types/RecipeType";
-
-const RecipesList = (props: {
-  recipes: RecipeType[];
-  handleNavigation: Function;
-}) => {
-  if (props.recipes.length > 0) {
+import { useAppSelector } from "../App/hooks";
+const RecipesList = (props: { handleNavigation: Function }) => {
+  const recipes = useAppSelector((state) => state.recipes.recipes);
+  if (recipes.length > 0) {
     return (
       <section>
-        {props.recipes.map((recipe: RecipeType) => (
+        {recipes.map((recipe: RecipeType) => (
           <Recipe
             key={recipe._id}
             recipe={recipe}

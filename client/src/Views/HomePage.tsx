@@ -4,7 +4,6 @@ import {
   fetchRecipesByCategoryFromAPI,
   fetchRecipesByCategoryAndQueryFromApi,
 } from "../features/recipes/recipesSlice";
-//import { fetchCategoriesFromAPI } from "../features/categories/categoriesSlice";
 
 import { fetchCategories } from "../API/categoris";
 import { CategoriesType } from "../types/RecipeType";
@@ -12,12 +11,8 @@ import SearchField from "../Components/SearchField";
 import { useEffect, useState } from "react";
 import CategoryList from "../Components/CategoryList";
 import RecipesList from "../Components/RecipesList";
-import {
-  /*Outlet,*/ useParams,
-  useSearchParams,
-  useNavigate,
-} from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../App/hooks";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../App/hooks";
 
 const HomePage = () => {
   let navigate = useNavigate();
@@ -33,10 +28,7 @@ const HomePage = () => {
   let params = useParams();
 
   const dispatch = useAppDispatch();
-  const recipes = useAppSelector((state) => state.recipes.recipes);
-  // const categoriesFetched = useAppSelector(
-  //   (state) => state.categories.categories
-  // );
+
   useEffect(() => {
     const recipesByQuery = async () => {
       if (searchParams.get("search") && params.hasOwnProperty("categoryId")) {
@@ -61,7 +53,6 @@ const HomePage = () => {
     if (params.hasOwnProperty("categoryId") && !searchParams.get("search")) {
       let query = params.categoryId;
       if (query) {
-        //getRecipiesByCategory(query);
         dispatch(fetchRecipesByCategoryFromAPI(query));
       }
     }
@@ -71,10 +62,6 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(fetchRecipesFromAPI());
   }, [dispatch]);
-
-  // const getRecipiesByCategory = async (query: string) => {
-  //   dispatch(fetchRecipesByCategoryFromAPI(query));
-  // };
 
   const getCategories = async () => {
     const allCategories = await fetchCategories();
@@ -90,9 +77,7 @@ const HomePage = () => {
 
   return (
     <div className="App">
-      {recipes && (
-        <RecipesList recipes={recipes} handleNavigation={handleNavigation} />
-      )}
+      <RecipesList handleNavigation={handleNavigation} />
       <CategoryList
         categories={categories}
         unfilteredCategories={unFilteredCategories}

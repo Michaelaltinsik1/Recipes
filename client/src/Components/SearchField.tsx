@@ -7,7 +7,6 @@ interface SearchFieldType {
 
 const SearchField = ({ updateSearchParams }: SearchFieldType) => {
   const [inputState, setInput] = useState("");
-  // const [searchParams, setSearchParams] = useSearchParams();
   return (
     <form>
       <input
@@ -32,7 +31,6 @@ const SearchField = ({ updateSearchParams }: SearchFieldType) => {
   function handleKeyPress(key: string) {
     if (key === "Enter") {
       if (inputState) {
-        //setSearchParams({ search: inputState });
         updateSearchParams(inputState);
       }
     }

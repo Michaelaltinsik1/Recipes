@@ -4,13 +4,11 @@ import { postComments, fetchCommentsById } from "../../API/recipes";
 
 interface initStateCommentType {
   comments: Array<CommentType> | [];
-  // newComment: NewCommentType | null;
   isFormSent: boolean;
 }
 
 export const initialState: initStateCommentType = {
   comments: [],
-  // newComment: null,
   isFormSent: false,
 };
 
@@ -28,7 +26,6 @@ export const postCommentByIdToAPI = createAsyncThunk(
 export const fetchCommentByIdToAPI = createAsyncThunk(
   "comments/fetchCommentById",
   async (id: string) => {
-    console.log("fetch comments");
     const response = await fetchCommentsById(id);
     return response.data;
   }
@@ -46,9 +43,6 @@ export const commentsSlice = createSlice({
     builder.addCase(postCommentByIdToAPI.pending, (state) => {
       state.isFormSent = true;
     });
-    // builder.addCase(postCommentByIdToAPI.fulfilled, (state, action) => {
-    //   state.comments = action.payload;
-    // });
     builder.addCase(postCommentByIdToAPI.rejected, (state) => {
       state.isFormSent = false;
     });

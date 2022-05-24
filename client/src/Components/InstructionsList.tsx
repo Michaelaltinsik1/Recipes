@@ -1,15 +1,17 @@
 import Instruction from "./Instruction";
+import { useAppSelector } from "../App/hooks";
+import { RecipeType } from "../types/RecipeType";
 
-interface InstructionsType {
-  instructions?: [{ instruction: string; prio: number }];
-}
 interface InstructionType {
   instruction: string;
   prio: number;
 }
-const InstructionsList = ({ instructions }: InstructionsType) => {
-  if (instructions) {
-    let temp = [...instructions];
+const InstructionsList = () => {
+  const recipe = useAppSelector<RecipeType | null>(
+    (state) => state.recipes.singleRecipe
+  );
+  if (recipe) {
+    let temp = [...recipe.instructions];
     let sortedInstructions = temp.sort(sortByPrioAscending);
     return (
       <ol>
